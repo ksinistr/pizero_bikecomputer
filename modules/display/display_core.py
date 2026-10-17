@@ -384,6 +384,12 @@ def init_display(config):
 
     if not config.G_IS_RASPI:
         config.G_DISPLAY = "None"
+        if config.G_EMULATED_DISPLAY:
+            from .mip_emulator import MipMonoEmulator
+
+            return MipMonoEmulator(
+                config, config.G_EMULATED_DISPLAY, config.G_EMULATOR_SCALE
+            )
         return display
 
     auto_detect = detect_display(config)

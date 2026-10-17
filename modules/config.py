@@ -16,6 +16,7 @@ from modules.board_config import BoardType, get_board_preset
 from modules.map_config import add_map_config
 from modules.helper.setting import Setting
 from modules.button_config import Button_Config
+from modules.display.mip_emulator import MONO_PANELS
 from modules.helper.state import AppState
 from modules.utils.buzzer import BuzzerController
 from modules.utils.cmd import (
@@ -142,6 +143,10 @@ class Config:
 
     # dummy sampling value output (change with --demo option)
     G_DUMMY_OUTPUT = False
+
+    # desktop preview of a monochrome MIP panel (change with --emulate-display option)
+    G_EMULATED_DISPLAY = None
+    G_EMULATOR_SCALE = None
 
     # debug mode (change with --debug option)
     G_DEBUG = False
@@ -522,6 +527,8 @@ class Config:
         parser.add_argument("--gui")
         parser.add_argument("--headless", action="store_true", default=False)
         parser.add_argument("--init", action="store_true", default=False)
+        parser.add_argument("--emulate-display", choices=MONO_PANELS)
+        parser.add_argument("--emulate-scale", type=int)
 
         args = parser.parse_args()
 
@@ -541,6 +548,10 @@ class Config:
             self.G_HEADLESS = True
         if args.init:
             self.G_INIT_ONLY = True
+        if args.emulate_display:
+            self.G_EMULATED_DISPLAY = args.emulate_display
+        if args.emulate_scale:
+            self.G_EMULATOR_SCALE = max(1, args.emulate_scale)
 
         # read setting.conf and state.pickle
         self.setting = Setting(self)
