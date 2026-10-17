@@ -14,6 +14,7 @@ def add_map_config(config):
         "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         "attribution": "© OpenStreetMap contributors",
         "tile_size": 256,
+        "max_zoomlevel": 19,
         "user_agent": True,
     }
     config.G_MAP_CONFIG["wikimedia"] = {
