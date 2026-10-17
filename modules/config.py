@@ -116,6 +116,8 @@ class Config:
 
     # overlay map
     G_USE_HEATMAP_OVERLAY_MAP = False
+    G_USE_RIDDEN_ROADS = False
+    G_RIDDEN_ROADS_FILE = os.path.join("rides", "ridden_roads.npz")
     G_HEATMAP_OVERLAY_MAP = "rwg_heatmap"
     G_HEATMAP_OVERLAY_MAP_CONFIG = {}
     G_USE_RAIN_OVERLAY_MAP = False

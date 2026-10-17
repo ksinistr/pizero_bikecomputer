@@ -16,9 +16,14 @@ POSITION_MARKER_COLORS = {"fix": (0, 0, 255), "lost": (170, 170, 170)}
 TRACK_COLOR = (0, 170, 255)
 TRACK_WIDTH = 4
 
+RIDDEN_COLOR = (60, 0, 90)
+RIDDEN_WIDTH = 6
+RIDDEN_DASH = (2.0, 1.2)
+
 MAP_LAYER_ORDER = {
     "base": -100,
     "overlay": -90,
+    "ridden": -80,
     "course": 20,
     "history": 30,
     "tail": 31,

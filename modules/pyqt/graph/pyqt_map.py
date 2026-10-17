@@ -347,6 +347,7 @@ class MapWidget(
             )
             self.track_history_plot.setPen(self.track_pen)
             self.track_tail_plot.setPen(self.track_pen)
+            self.ridden_plot.setPen(self._ridden_pen())
             self.refresh_map()
         return result
 
@@ -426,6 +427,9 @@ class MapWidget(
                 draw_start = time.perf_counter()
                 await self.draw_map_tile(x_start, x_end, y_start, y_end)
                 draw_elapsed_ms = (time.perf_counter() - draw_start) * 1000.0
+
+            if not np.any(np.isnan([x_start, x_end, y_start, y_end])):
+                self._update_ridden_plot(x_start, x_end, y_start, y_end)
 
             self.enable_overlay_time_and_button()
             self.set_attribution()

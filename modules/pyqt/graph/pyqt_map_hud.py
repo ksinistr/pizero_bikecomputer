@@ -1,6 +1,13 @@
 from modules.qt._qt_qtwidgets import QtCore, QtWidgets, pg
 from modules.map.content import scale_content
-from modules.map.style import MAP_LAYER_ORDER, TRACK_COLOR, TRACK_WIDTH
+from modules.map.style import (
+    MAP_LAYER_ORDER,
+    RIDDEN_COLOR,
+    RIDDEN_DASH,
+    RIDDEN_WIDTH,
+    TRACK_COLOR,
+    TRACK_WIDTH,
+)
 from modules.qt.qt_map_hud import (
     attribution_image,
     hud_position,
@@ -28,7 +35,25 @@ class MapHudMixin:
         self.track_history_plot.setZValue(MAP_LAYER_ORDER["history"])
         self.track_tail_plot.setZValue(MAP_LAYER_ORDER["tail"])
         self.plot.addItem(self.current_point)
+        self.ridden_plot = self.plot.plot(pen=self._ridden_pen(), connect="finite")
+        self.ridden_plot.setZValue(MAP_LAYER_ORDER["ridden"])
         self._setup_fixed_hud_overlay()
+
+    def _ridden_pen(self):
+        pen = pg.mkPen(
+            color=RIDDEN_COLOR,
+            width=RIDDEN_WIDTH * self.devicePixelRatioF(),
+            dash=list(RIDDEN_DASH),
+        )
+        pen.setCapStyle(QtCore.Qt.PenCapStyle.FlatCap)
+        return pen
+
+    def _update_ridden_plot(self, x_start, x_end, y_start, y_end):
+        roads = self.config.map.ridden_roads
+        if not self.config.G_USE_RIDDEN_ROADS or roads.is_empty:
+            self.ridden_plot.setData([], [])
+            return
+        self.ridden_plot.setData(*roads.visible(x_start, x_end, y_start, y_end))
 
     def _setup_fixed_hud_overlay(self):
         self._fixed_hud_overlay = QtWidgets.QWidget(self)

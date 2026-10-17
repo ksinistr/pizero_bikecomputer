@@ -6,6 +6,7 @@ from .repository import TileRepository
 from .track import TrackStore
 from .content import CourseMarkerLayout, Navigation
 from .overlays import MapOverlays
+from .ridden import RiddenRoads
 from modules.helper.maptile import get_wind_color
 
 
@@ -18,6 +19,7 @@ class MapApplication:
         self.navigation = Navigation()
         self.marker_layout = CourseMarkerLayout()
         self.overlays = MapOverlays(config)
+        self.ridden_roads = RiddenRoads.from_file(config.G_RIDDEN_ROADS_FILE)
         self.use_magnetic_heading = config.G_DEBUG
         self.route_searching = False
         self._wind_key = None

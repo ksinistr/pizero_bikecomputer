@@ -47,12 +47,20 @@ class MapOverlayMenuWidget(MenuWidget):
             ("Rain map List", "submenu", self.select_rainmap),
             ("Wind map", "toggle", lambda: self.onoff_windmap(True)),
             ("Wind map List", "submenu", self.select_windmap),
+            ("Ridden roads", "toggle", lambda: self.onoff_ridden_roads(True)),
         )
         self.add_buttons(button_conf)
 
         self.onoff_heatmap(False)
         self.onoff_rainmap(False)
         self.onoff_windmap(False)
+        self.onoff_ridden_roads(False)
+
+    def onoff_ridden_roads(self, change=True):
+        if change:
+            self.config.G_USE_RIDDEN_ROADS = not self.config.G_USE_RIDDEN_ROADS
+            self.config.map.notify("refresh_map")
+        self.buttons["Ridden roads"].change_toggle(self.config.G_USE_RIDDEN_ROADS)
 
     def onoff_heatmap(self, change=True):
         self.onoff_map("Heatmap", change, self.config.G_USE_HEATMAP_OVERLAY_MAP)

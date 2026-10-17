@@ -103,6 +103,8 @@ class Setting:
                 )
             if "HEATMAP_OVERLAY_MAP" in c:
                 self.config.G_HEATMAP_OVERLAY_MAP = c["HEATMAP_OVERLAY_MAP"]
+            if "USE_RIDDEN_ROADS" in c:
+                self.config.G_USE_RIDDEN_ROADS = c.getboolean("USE_RIDDEN_ROADS")
             if "USE_RAIN_OVERLAY_MAP" in c:
                 self.config.G_USE_RAIN_OVERLAY_MAP = c.getboolean(
                     "USE_RAIN_OVERLAY_MAP"
@@ -444,6 +446,7 @@ class Setting:
         c["COURSE_TRAFFIC_SIDE"] = self.config.G_COURSE_TRAFFIC_SIDE
         c["USE_HEATMAP_OVERLAY_MAP"] = str(self.config.G_USE_HEATMAP_OVERLAY_MAP)
         c["HEATMAP_OVERLAY_MAP"] = self.config.G_HEATMAP_OVERLAY_MAP
+        c["USE_RIDDEN_ROADS"] = str(self.config.G_USE_RIDDEN_ROADS)
         c["USE_RAIN_OVERLAY_MAP"] = str(self.config.G_USE_RAIN_OVERLAY_MAP)
         c["RAIN_OVERLAY_MAP"] = self.config.G_RAIN_OVERLAY_MAP
         c["USE_WIND_OVERLAY_MAP"] = str(self.config.G_USE_WIND_OVERLAY_MAP)
