@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rendertheme xmlns="http://mapsforge.org/renderTheme"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://mapsforge.org/renderTheme https://raw.githubusercontent.com/mapsforge/mapsforge/master/resources/renderTheme.xsd"
+    version="5" map-background="#FFFFFF" map-background-outside="#FFFFFF">
+
+    <rule e="way" k="natural" v="sea">
+        <area src="file:sea_dots.png" />
+    </rule>
+    <rule e="way" k="natural" v="nosea">
+        <area fill="#FFFFFF" />
+    </rule>
+
+    <rule e="way" k="natural|landuse" v="water|reservoir|basin" closed="yes" zoom-min="11">
+        <area src="file:sea_dots.png" stroke="#000000" stroke-width="0.4" />
+    </rule>
+    <rule e="way" k="waterway" v="river|canal" zoom-min="11">
+        <line stroke="#000000" stroke-width="0.5" stroke-dasharray="6,3" />
+    </rule>
+
+    <rule e="way" k="contour_ext" v="elevation_major" zoom-min="12">
+        <line stroke="#000000" stroke-width="0.15" stroke-dasharray="2,4" />
+        <rule e="way" k="*" v="*" zoom-min="14">
+            <pathText k="ele" font-size="9" fill="#000000" stroke="#FFFFFF" stroke-width="2.5" repeat-gap="300" />
+        </rule>
+    </rule>
+    <rule e="way" k="contour_ext" v="elevation_medium" zoom-min="15">
+        <line stroke="#000000" stroke-width="0.1" stroke-dasharray="1,5" />
+    </rule>
+
+    <rule e="way" k="railway" v="rail" zoom-min="12">
+        <line stroke="#000000" stroke-width="0.4" stroke-dasharray="8,4" />
+    </rule>
+
+    <rule e="way" k="highway" v="*">
+        <rule e="way" k="highway" v="path|footway|bridleway|steps" zoom-min="14">
+            <line stroke="#000000" stroke-width="0.25" stroke-dasharray="2,3" />
+        </rule>
+        <rule e="way" k="highway" v="track" zoom-min="13">
+            <line stroke="#000000" stroke-width="0.35" stroke-dasharray="6,3" stroke-linecap="butt" />
+        </rule>
+        <rule e="way" k="highway" v="cycleway" zoom-min="13">
+            <line stroke="#000000" stroke-width="0.6" stroke-dasharray="3,2" stroke-linecap="butt" />
+        </rule>
+        <rule e="way" k="highway" v="service|living_street|pedestrian" zoom-min="15">
+            <line stroke="#000000" stroke-width="0.25" />
+        </rule>
+        <rule e="way" k="highway" v="residential|unclassified|road" zoom-min="13">
+            <line stroke="#000000" stroke-width="0.45" />
+        </rule>
+        <rule e="way" k="highway" v="tertiary|tertiary_link" zoom-min="11">
+            <line stroke="#000000" stroke-width="0.7" />
+        </rule>
+        <rule e="way" k="highway" v="secondary|secondary_link" zoom-min="10">
+            <line stroke="#000000" stroke-width="1.0" />
+        </rule>
+        <rule e="way" k="highway" v="primary|primary_link" zoom-min="9">
+            <line stroke="#000000" stroke-width="1.3" />
+        </rule>
+        <rule e="way" k="highway" v="motorway|motorway_link|trunk|trunk_link" zoom-min="8">
+            <line stroke="#000000" stroke-width="1.6" stroke-linecap="butt" />
+            <line stroke="#FFFFFF" stroke-width="0.8" stroke-linecap="butt" />
+        </rule>
+
+        <rule e="way" k="highway" v="primary|secondary|tertiary" zoom-min="14">
+            <pathText k="ref" font-style="bold" font-size="10" fill="#000000" stroke="#FFFFFF" stroke-width="3" repeat-gap="250" />
+        </rule>
+        <rule e="way" k="highway" v="motorway|trunk" zoom-min="12">
+            <pathText k="ref" font-style="bold" font-size="11" fill="#000000" stroke="#FFFFFF" stroke-width="3" repeat-gap="250" />
+        </rule>
+        <rule e="way" k="highway" v="primary|secondary|tertiary|residential|unclassified" zoom-min="16">
+            <pathText k="name" font-size="10" fill="#000000" stroke="#FFFFFF" stroke-width="3" repeat-gap="200" />
+        </rule>
+    </rule>
+
+    <rule e="node" k="natural" v="peak" zoom-min="12">
+        <symbol src="file:peak.png" />
+        <caption k="ele" font-size="10" fill="#000000" stroke="#FFFFFF" stroke-width="3" position="below" />
+    </rule>
+
+    <rule e="node" k="place" v="*">
+        <rule e="node" k="place" v="city" zoom-min="8">
+            <caption k="name" font-style="bold" font-size="16" fill="#000000" stroke="#FFFFFF" stroke-width="4" />
+        </rule>
+        <rule e="node" k="place" v="town" zoom-min="10">
+            <caption k="name" font-style="bold" font-size="14" fill="#000000" stroke="#FFFFFF" stroke-width="4" />
+        </rule>
+        <rule e="node" k="place" v="village" zoom-min="12">
+            <caption k="name" font-style="bold" font-size="13" fill="#000000" stroke="#FFFFFF" stroke-width="4" />
+        </rule>
+        <rule e="node" k="place" v="suburb|hamlet" zoom-min="14">
+            <caption k="name" font-size="12" fill="#000000" stroke="#FFFFFF" stroke-width="4" />
+        </rule>
+    </rule>
+</rendertheme>

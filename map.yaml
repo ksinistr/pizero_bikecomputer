@@ -19,3 +19,13 @@ opencyclemap:
 cycleosm:
   url: https://a.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png
   attribution: © OpenStreetMap contributors
+
+paphos30_mono:
+  url:
+  attribution: © OpenAndroMaps, © OpenStreetMap contributors
+  use_mbtiles: true
+
+paphos30_elevate:
+  url:
+  attribution: © OpenAndroMaps, © OpenStreetMap contributors
+  use_mbtiles: true
