@@ -2,12 +2,15 @@ import argparse
 import io
 import math
 import sqlite3
+import time
+import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
 from PIL import Image
 
 EARTH_RADIUS_M = 6371000.0
+FETCH_ATTEMPTS = 5
 
 
 def tile_xy(lat, lon, zoom):
@@ -41,8 +44,19 @@ def to_one_bit(png, threshold):
 
 def fetch(url_template, tile):
     z, x, y = tile
-    with urllib.request.urlopen(url_template.format(z=z, x=x, y=y), timeout=120) as r:
-        return r.read()
+    url = url_template.format(z=z, x=x, y=y)
+    for attempt in range(FETCH_ATTEMPTS):
+        try:
+            with urllib.request.urlopen(url, timeout=120) as r:
+                return r.read()
+        except urllib.error.HTTPError as error:
+            if error.code == 404:
+                return None
+            raise
+        except (urllib.error.URLError, ConnectionError) as error:
+            if attempt == FETCH_ATTEMPTS - 1:
+                raise RuntimeError(f"tile {z}/{x}/{y} failed: {error}") from error
+            time.sleep(2 * (attempt + 1))
 
 
 def open_mbtiles(path, name, bbox, zooms):
@@ -97,14 +111,17 @@ def main():
 
     def render(tile):
         png = fetch(args.url, tile)
-        return tile, to_one_bit(png, args.one_bit) if args.one_bit else png
+        if png is None or not args.one_bit:
+            return tile, png
+        return tile, to_one_bit(png, args.one_bit)
 
     with ThreadPoolExecutor(args.workers) as pool:
         for done, ((z, x, y), png) in enumerate(pool.map(render, tiles), 1):
-            db.execute(
-                "INSERT OR REPLACE INTO tiles VALUES (?, ?, ?, ?)",
-                (z, x, 2**z - 1 - y, png),
-            )
+            if png is not None:
+                db.execute(
+                    "INSERT OR REPLACE INTO tiles VALUES (?, ?, ?, ?)",
+                    (z, x, 2**z - 1 - y, png),
+                )
             if done % 200 == 0 or done == len(tiles):
                 db.commit()
                 print(f"{done}/{len(tiles)} tiles", flush=True)

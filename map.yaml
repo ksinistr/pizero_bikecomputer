@@ -29,3 +29,8 @@ paphos30_elevate:
   url:
   attribution: © OpenAndroMaps, © OpenStreetMap contributors
   use_mbtiles: true
+
+cyprus_mono:
+  url:
+  attribution: © OpenAndroMaps, © OpenStreetMap contributors
+  use_mbtiles: true

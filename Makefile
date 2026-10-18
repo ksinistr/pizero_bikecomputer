@@ -105,6 +105,10 @@ mapsforge-up:
 	docker run -d --rm --name $(MAPSFORGE_CONTAINER) -p 127.0.0.1:8486:8486 \
 		-v "$(CURDIR)/tools/mapsforge":/srv:ro eclipse-temurin:21-jre \
 		java -jar /srv/vendor/jar/mapsforgesrv-fatjar.jar -c /srv/config
+	@for i in $$(seq 1 30); do \
+		curl -fs -o /dev/null "http://127.0.0.1:8486/10/610/406.png?task=$(TASK)" && echo "mapsforge ready" && exit 0; \
+		sleep 1; \
+	done; echo "mapsforge did not start, see: docker logs $(MAPSFORGE_CONTAINER)"; exit 1
 
 mapsforge-down:
 	docker stop $(MAPSFORGE_CONTAINER)
