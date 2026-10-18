@@ -8,7 +8,7 @@ DEPS = PyQt6 numpy cython pillow pyqtgraph fitparse oyaml polyline aiohttp qasyn
 
 .DEFAULT_GOAL := help
 
-.PHONY: ridden-roads deploy
+.PHONY: ridden-roads locus-overlay deploy
 .PHONY: mapsforge-deps
 .PHONY: mapsforge-up mapsforge-down map-render
 .PHONY: help venv emulate emulate-real-size demo keys gpx use-course courses test-course reset-demo
@@ -26,6 +26,7 @@ help:
 	@echo "  make test-course           build the Ventoux test loop (needs network)"
 	@echo "  make reset-demo            forget recorded demo positions so the course is replayed"
 	@echo "  make ridden-roads          build rides/ridden_roads.npz from rides/gpx/*.gpx (Map Overlay > Ridden roads)"
+	@echo "  make locus-overlay [COLOR=E0007A] [OVERLAY_ZOOMS=8-16]  rides/ridden_overlay.mbtiles for Locus Map (doc/locus_ridden_overlay.md)"
 	@echo "  make mapsforge-deps MAP_FILE=x.map  fetch renderer + Elevate theme, copy OpenAndroMaps .map"
 	@echo "  make mapsforge-up          start local Mapsforge tile server in Docker (needs tools/mapsforge/vendor)"
 	@echo "  make mapsforge-down        stop it"
@@ -120,6 +121,13 @@ map-render:
 
 ridden-roads:
 	$(PYTHON) tools/build_ridden_layer.py rides/gpx/*.gpx --output rides/ridden_roads.npz
+
+COLOR ?= E0007A
+OVERLAY_ZOOMS ?= 8-16
+
+locus-overlay: rides/ridden_roads.npz
+	$(PYTHON) tools/render_ridden_overlay.py rides/ridden_roads.npz rides/ridden_overlay.mbtiles \
+		--zooms $(OVERLAY_ZOOMS) --color "#$(COLOR)"
 
 PI ?=
 PI_DIR ?= pizero_bikecomputer
